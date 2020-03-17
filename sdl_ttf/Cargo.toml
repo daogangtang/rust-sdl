@@ -1,0 +1,11 @@
+[package]
+name = "sdl_ttf"
+version = "0.1.0"
+authors = ["Daogang Tang <daogangtang@gmail.com>"]
+edition = "2018"
+
+[dependencies.sdl]
+path = "../"
+
+[dependencies]
+#libc = "0.1"
