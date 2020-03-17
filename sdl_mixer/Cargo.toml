@@ -1,22 +1,18 @@
 [package]
-name = "sdl_image"
+name = "sdl_mixer"
 version = "0.3.6"
 authors = [
 	"Brian Anderson <banderson@mozilla.com>",
 	"Kang Seonghoon <public+rust@mearie.org>"
 ]
 
-description = "SDL_image binding"
+description = "SDL_mixer binding"
 homepage = "https://github.com/brson/rust-sdl"
 repository = "https://github.com/brson/rust-sdl"
 license = "MIT"
 
-[lib]
-name = "sdl_image"
-path = "lib.rs"
-
 [dependencies.sdl]
-path = "../.."
+path = "../"
 
 [dependencies]
 libc = "0.1"

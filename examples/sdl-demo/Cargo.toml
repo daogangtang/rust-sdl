@@ -6,10 +6,6 @@ authors = [
 	"Kang Seonghoon <public+rust@mearie.org>"
 ]
 
-[[bin]]
-name = "sdl-demo"
-path = "main.rs"
-
 [dependencies.sdl]
 path = "../.."
 

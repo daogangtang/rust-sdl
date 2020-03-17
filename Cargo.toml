@@ -4,6 +4,7 @@ version = "0.3.6"
 authors = [
 	"Brian Anderson <banderson@mozilla.com>",
 	"Kang Seonghoon <public+rust@mearie.org>"
+	"Daogang Tang <daogangtang@gmail.com>"
 ]
 
 description = "SDL bindings"
@@ -11,11 +12,7 @@ homepage = "https://github.com/brson/rust-sdl"
 repository = "https://github.com/brson/rust-sdl"
 license = "MIT"
 
-[lib]
-name = "sdl"
-path = "src/sdl/lib.rs"
-
 [dependencies]
 num = "0.1.24"
-rand = "0.3"
 libc = "0.1"
+rand = "0.3"
