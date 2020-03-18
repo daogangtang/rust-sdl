@@ -1,8 +1,9 @@
 use std::path::Path;
 use std::ffi::CString;
+use std::os::raw::*;
 
 use sdl::get_error;
-use sdl::video::Surface;
+use sdl::video::{Surface, Color};
 
 // Setup linking for all targets.
 #[cfg(any(not(target_os = "macos"), not(mac_framework)))]
@@ -47,11 +48,14 @@ pub mod ll {
     extern "C" {
 	// pub fn TTF_Linked_Version() -> *const SDL_version;
 	// pub fn TTF_ByteSwappedUNICODE(swapped: ::std::os::raw::c_int);
+
 	pub fn TTF_Init() -> ::std::os::raw::c_int;
+
 	pub fn TTF_OpenFont(
 	    file: *const ::std::os::raw::c_char,
 	    ptsize: ::std::os::raw::c_int,
 	) -> *mut TTF_Font;
+
 	// pub fn TTF_OpenFontIndex(
 	//     file: *const ::std::os::raw::c_char,
 	//     ptsize: ::std::os::raw::c_int,
@@ -68,22 +72,22 @@ pub mod ll {
 	//     ptsize: ::std::os::raw::c_int,
 	//     index: ::std::os::raw::c_long,
 	// ) -> *mut TTF_Font;
-	pub fn TTF_GetFontStyle(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_SetFontStyle(font: *mut TTF_Font, style: ::std::os::raw::c_int);
-	pub fn TTF_GetFontOutline(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_SetFontOutline(font: *mut TTF_Font, outline: ::std::os::raw::c_int);
-	pub fn TTF_GetFontHinting(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_SetFontHinting(font: *mut TTF_Font, hinting: ::std::os::raw::c_int);
-	pub fn TTF_FontHeight(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_FontAscent(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_FontDescent(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_FontLineSkip(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_GetFontKerning(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_SetFontKerning(font: *mut TTF_Font, allowed: ::std::os::raw::c_int);
-	pub fn TTF_FontFaces(font: *const TTF_Font) -> ::std::os::raw::c_long;
-	pub fn TTF_FontFaceIsFixedWidth(font: *const TTF_Font) -> ::std::os::raw::c_int;
-	pub fn TTF_FontFaceFamilyName(font: *const TTF_Font) -> *mut ::std::os::raw::c_char;
-	pub fn TTF_FontFaceStyleName(font: *const TTF_Font) -> *mut ::std::os::raw::c_char;
+	// pub fn TTF_GetFontStyle(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_SetFontStyle(font: *mut TTF_Font, style: ::std::os::raw::c_int);
+	// pub fn TTF_GetFontOutline(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_SetFontOutline(font: *mut TTF_Font, outline: ::std::os::raw::c_int);
+	// pub fn TTF_GetFontHinting(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_SetFontHinting(font: *mut TTF_Font, hinting: ::std::os::raw::c_int);
+	// pub fn TTF_FontHeight(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_FontAscent(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_FontDescent(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_FontLineSkip(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_GetFontKerning(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_SetFontKerning(font: *mut TTF_Font, allowed: ::std::os::raw::c_int);
+	// pub fn TTF_FontFaces(font: *const TTF_Font) -> ::std::os::raw::c_long;
+	// pub fn TTF_FontFaceIsFixedWidth(font: *const TTF_Font) -> ::std::os::raw::c_int;
+	// pub fn TTF_FontFaceFamilyName(font: *const TTF_Font) -> *mut ::std::os::raw::c_char;
+	// pub fn TTF_FontFaceStyleName(font: *const TTF_Font) -> *mut ::std::os::raw::c_char;
 	// pub fn TTF_GlyphIsProvided(font: *const TTF_Font, ch: Uint16) -> ::std::os::raw::c_int;
 	// pub fn TTF_GlyphMetrics(
 	//     font: *mut TTF_Font,
@@ -100,12 +104,14 @@ pub mod ll {
 	//     w: *mut ::std::os::raw::c_int,
 	//     h: *mut ::std::os::raw::c_int,
 	// ) -> ::std::os::raw::c_int;
-	pub fn TTF_SizeUTF8(
-	    font: *mut TTF_Font,
-	    text: *const ::std::os::raw::c_char,
-	    w: *mut ::std::os::raw::c_int,
-	    h: *mut ::std::os::raw::c_int,
-	) -> ::std::os::raw::c_int;
+
+	// pub fn TTF_SizeUTF8(
+	//     font: *mut TTF_Font,
+	//     text: *const ::std::os::raw::c_char,
+	//     w: *mut ::std::os::raw::c_int,
+	//     h: *mut ::std::os::raw::c_int,
+	// ) -> ::std::os::raw::c_int;
+
 	// pub fn TTF_SizeUNICODE(
 	//     font: *mut TTF_Font,
 	//     text: *const Uint16,
@@ -117,11 +123,13 @@ pub mod ll {
 	//     text: *const ::std::os::raw::c_char,
 	//     fg: SDL_Color,
 	// ) -> *mut SDL_Surface;
+
 	pub fn TTF_RenderUTF8_Solid(
 	    font: *mut TTF_Font,
 	    text: *const ::std::os::raw::c_char,
 	    fg: SDL_Color,
 	) -> *mut SDL_Surface;
+
 	// pub fn TTF_RenderUNICODE_Solid(
 	//     font: *mut TTF_Font,
 	//     text: *const Uint16,
@@ -138,12 +146,14 @@ pub mod ll {
 	//     fg: SDL_Color,
 	//     bg: SDL_Color,
 	// ) -> *mut SDL_Surface;
-	pub fn TTF_RenderUTF8_Shaded(
-	    font: *mut TTF_Font,
-	    text: *const ::std::os::raw::c_char,
-	    fg: SDL_Color,
-	    bg: SDL_Color,
-	) -> *mut SDL_Surface;
+
+	// pub fn TTF_RenderUTF8_Shaded(
+	//     font: *mut TTF_Font,
+	//     text: *const ::std::os::raw::c_char,
+	//     fg: SDL_Color,
+	//     bg: SDL_Color,
+	// ) -> *mut SDL_Surface;
+
 	// pub fn TTF_RenderUNICODE_Shaded(
 	//     font: *mut TTF_Font,
 	//     text: *const Uint16,
@@ -161,11 +171,13 @@ pub mod ll {
 	//     text: *const ::std::os::raw::c_char,
 	//     fg: SDL_Color,
 	// ) -> *mut SDL_Surface;
-	pub fn TTF_RenderUTF8_Blended(
-	    font: *mut TTF_Font,
-	    text: *const ::std::os::raw::c_char,
-	    fg: SDL_Color,
-	) -> *mut SDL_Surface;
+
+	// pub fn TTF_RenderUTF8_Blended(
+	//     font: *mut TTF_Font,
+	//     text: *const ::std::os::raw::c_char,
+	//     fg: SDL_Color,
+	// ) -> *mut SDL_Surface;
+
 	// pub fn TTF_RenderUNICODE_Blended(
 	//     font: *mut TTF_Font,
 	//     text: *const Uint16,
@@ -188,6 +200,10 @@ pub mod ll {
 }
 
 
+pub struct Font {
+    raw: *mut ll::TTF_Font
+}
+
 
 pub fn init() -> Result<(), String> {
 
@@ -201,4 +217,48 @@ pub fn init() -> Result<(), String> {
     else {
 	Err("SDL_ttf init error.".to_string())
     }
+}
+
+pub fn open_font(file: &Path, pt: isize) -> Result<Font, String> {
+    let cfile = CString::new(file.to_str().unwrap()).unwrap();
+    unsafe {
+	let raw = ll::TTF_OpenFont(cfile.as_ptr(), pt as c_int);
+
+	if raw.is_null() {
+	    Err(get_error())
+	} else {
+	    Ok(Font {
+		raw
+	    })
+	}
+    }
+}
+
+pub fn render_utf8_solid(font: &Font, text: String, color: &Color) -> Result<Surface, String> {
+    let raw_font = font.raw;
+    let text = CString::new(text).unwrap();
+    let fg = color.to_struct();
+
+    unsafe {
+	let raw_surface = ll::TTF_RenderUTF8_Solid(raw_font, text.as_ptr(), fg);
+
+	if raw_surface.is_null() {
+	    Err(get_error())
+	}
+	else {
+	    Ok(Surface{raw: raw_surface, owned: true})
+	}
+    }
+}
+
+pub fn close_font(font: Font) {
+    let raw = font.raw;
+
+    unsafe {
+	ll::TTF_CloseFont(raw);
+    }
+}
+
+pub fn quit() {
+    unsafe { ll::TTF_Quit(); }
 }
