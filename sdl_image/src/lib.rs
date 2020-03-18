@@ -33,9 +33,9 @@ pub mod ll {
     pub const IMG_INIT_WEBP: IMG_InitFlags = 8;
 
     extern "C" {
-        pub fn IMG_Init(flags: c_int) -> c_int;
-        pub fn IMG_Quit();
-        pub fn IMG_Load(file: *const c_schar) -> *mut SDL_Surface;
+	pub fn IMG_Init(flags: c_int) -> c_int;
+	pub fn IMG_Quit();
+	pub fn IMG_Load(file: *const c_schar) -> *mut SDL_Surface;
     }
 }
 
@@ -48,31 +48,31 @@ pub enum InitFlag {
 
 pub fn init(flags: &[InitFlag]) -> Vec<InitFlag> {
     let bitflags = unsafe {
-        ll::IMG_Init(flags.iter().fold(0i32, |flags, &flag| {
-            flags | flag as c_int
-        }))
+	ll::IMG_Init(flags.iter().fold(0i32, |flags, &flag| {
+	    flags | flag as c_int
+	}))
     };
 
     let flags = [InitFlag::JPG,
-        InitFlag::PNG,
-        InitFlag::TIF];
+	InitFlag::PNG,
+	InitFlag::TIF];
 
     flags.iter().filter_map(|&flag| {
-        if bitflags & (flag as c_int) != 0 { Some(flag) }
-        else { None }
+	if bitflags & (flag as c_int) != 0 { Some(flag) }
+	else { None }
     }).collect()
 }
 
 pub fn load(file: &Path) -> Result<Surface, String> {
     let cfile = CString::new(file.to_str().unwrap()).unwrap();
     unsafe {
-        let raw = ll::IMG_Load(cfile.as_ptr());
+	let raw = ll::IMG_Load(cfile.as_ptr());
 
-        if raw.is_null() {
-            Err(get_error())
-        } else {
-            Ok(Surface { raw: raw, owned: true })
-        }
+	if raw.is_null() {
+	    Err(get_error())
+	} else {
+	    Ok(Surface { raw: raw, owned: true })
+	}
     }
 }
 
